@@ -1,0 +1,57 @@
+/* using lbrabry that allows user input*/
+import java.util.Scanner;
+
+public class recw {
+
+    public static void main(String[] args) {
+        /*This prompts the user to enter the number they want to use for the sequence*/
+        Scanner sc = new Scanner(System.in);
+        
+        /*Outputs users input*/
+        System.out.print("Enter fibanocii sequence number: ");
+        int next = sc.nextInt();
+
+        // I learned that its better to use long to take in bigger numbers as these seqences can get very large. 
+        
+        /**
+         *This outputs the value based off of what the user put in
+         * then it also shows the run time in nano seconds because of the system.nanoTime.
+         */
+        System.out.println("Fibonacci iteration:");
+        long start = System.nanoTime();
+        System.out.printf("number at index %d = %d \n", next, fibIteration(next));
+        System.out.printf("Time: %d ns\n", System.nanoTime() - start);
+
+        System.out.println("Fibonacci recursion:");
+        start = System.nanoTime();
+        System.out.printf("Fibonacci sequence(element at index %d) = %d \n", next, fibRecursion(next));
+        System.out.printf("Time: %d ns\n", System.nanoTime() - start);
+    }
+    
+    //Iteration method goes until the statement is met and is no longer false
+    /**
+     *For loop goes through and essentially takes the numbers 
+     * before the element and adds them to get the next number
+     */
+    static int fibIteration(int n) {
+        int x = 0, y = 1, z = 1;
+        for (int i = 0; i < n; i++) {
+            x = y;
+            y = z;
+            z = x + y;
+        }
+        return x;
+    }
+
+    //Recursive method goes as soon as when the function is called upon.
+    /**
+     *if statement goes through and essentially takes the numbers 
+     * before the element and adds them to get the next number
+     */
+    static int fibRecursion(int  n) {
+        if ((n == 1) || (n == 0)) {
+            return n;
+        }
+        return fibRecursion(n - 1) + fibRecursion(n - 2);
+    }
+}
