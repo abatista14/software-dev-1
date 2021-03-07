@@ -1,90 +1,141 @@
+package sample;
+
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
- 
-public class counter {
-	
-	public String replaceAll(String regex, String replace) 
-	{
-	    return Pattern.compile(regex).matcher((CharSequence) this).replaceAll(replace);
-	}
-	 public static <Key, Value extends Comparable<Value> > Map<Key, Value> 
-	    valueSort(final Map<Key, Value> map) 
-	    { 
-	        Comparator<Key> valueComparator = new Comparator<Key>() { 
-	            
-	                public int compare(Key key1, Key key2) 
-	                  { 
-	                      int comparing = map.get(key1).compareTo( 
-	                          map.get(key2)); 
-	                      if (comparing == 0) 
-	                          return 1; 
-	                      else
-	                          return comparing; 
-	                  } 	            
-	              }; 
-	         
-	        Map<Key, Value> sorted = new TreeMap<Key, Value>(valueComparator); 
-	        
-	        sorted.putAll(map); 
-	        
-	        return sorted; 
-	    } 
-	   public static void main(String[] args) {
-	       String[] word;
-	       try {
-	           URL url = new URL("https://www.gutenberg.org/files/1065/1065-h/1065-h.htm");
 
-	           Scanner in = new Scanner(url.openStream());
-	           StringBuilder buffer = new StringBuilder();
-	           String adrian;
-	        while (in.hasNextLine())
-	           {
-		    	
-	        	   adrian=in.nextLine();
-	               buffer.append(adrian.replaceAll("\\<.*?\\>", "")).append("\n");
-	           }
-	           in.close();
-	           word = buffer.toString().split("[0-9]+|\\W+");
+/**
+ * Class count outputs words based on lowest to highest frequency
+ * @author adrian
+ * @Date 3/7/2021
+ */
 
-	  
-	       } catch (IOException ex) {
-	           word = new String[1];
-	           System.exit(0);
-	       }
+public class count extends Application {
 
-	     
-	   TreeMap<String, Integer> map = new TreeMap<>();
-	       int i=0;
-	       for (String word1 : word) {
-	           String key = word1.toLowerCase();
-	           i++;
-	                 
-	       
-	           if (key.length() > 0 && i>204&& i<1349) {
-	               if (!map.containsKey(key)) {
-	                   map.put(key, 1);
-	               } else {
-	                   int value = map.get(key);
-	                   value++;
-	                   map.put(key, value);
-	               }
-	           }
-	           
-	       }
-	        Map sortedMap = valueSort(map); 
-	        Set set = sortedMap.entrySet(); 
-	        Iterator k = set.iterator();
-	        
+    /**
+     *
+     * @param regex contains all the special characters in document
+     * @param replace replaces all the special characters from the regex
+     * @return returns the sorted words from most to greatest occurences
+     */
+    public String replaceAll(String regex, String replace)
+    {
+        return Pattern.compile(regex).matcher((CharSequence) this).replaceAll(replace);
+    }
+    public static <Key, Value extends Comparable<Value> > Map<Key, Value>
+    valueSort(final Map<Key, Value> map)
+    {
+        Comparator<Key> valueComparator = new Comparator<Key>() {
 
-	       
-	        while (k.hasNext()) { 
-	            
-	            Map.Entry mp = (Map.Entry)k.next();
-	            System.out.print(mp.getKey() + ": "); 
-	            System.out.println(mp.getValue()); 
-	            
-	        }
-	 }
+            public int compare(Key key1, Key key2)
+            {
+                int comparing = map.get(key1).compareTo(
+                        map.get(key2));
+                if (comparing == 0)
+                    return 1;
+                else
+                    return comparing;
+            }
+        };
+
+        Map<Key, Value> sorted = new TreeMap<Key, Value>(valueComparator);
+
+        sorted.putAll(map);
+
+        return sorted;
+    }
+
+    /**
+     *
+     * @param args outputs the method solid
+     *
+     */
+    public static void main(String[] args) {
+        solid();
+    }
+
+
+    /**
+     * @try takes in the poem and takes each element and puts it into a string
+     * @while goes one by one and replaces all html tags
+     * @treemap takes all the elements from the string and stores it in the treemap
+     * @StringBuilderout stores all the results from the while loop which includes keys and values
+     * @return
+     */
+    public static Object solid(){
+        String[] word;
+        try {
+            URL url = new URL("https://www.gutenberg.org/files/1065/1065-h/1065-h.htm");
+
+            Scanner in = new Scanner(url.openStream());
+            StringBuilder buffer = new StringBuilder();
+            String adrian;
+            while (in.hasNextLine())
+            {
+
+                adrian=in.nextLine();
+                buffer.append(adrian.replaceAll("\\<.*?\\>", "")).append("\n");
+            }
+            in.close();
+            word = buffer.toString().split("[0-9]+|\\W+");
+
+
+        } catch (IOException ex) {
+            word = new String[1];
+            System.exit(0);
+        }
+
+
+        TreeMap<String, Integer> map = new TreeMap<>();
+        int i=0;
+        for (String word1 : word) {
+            String key = word1.toLowerCase();
+            i++;
+
+
+            if (key.length() > 0 && i>204&& i<1349) {
+                if (!map.containsKey(key)) {
+                    map.put(key, 1);
+                } else {
+                    int value = map.get(key);
+                    value++;
+                    map.put(key, value);
+                }
+            }
+
+        }
+        Map sortedMap = valueSort(map);
+        Set set = sortedMap.entrySet();
+        Iterator k = set.iterator();
+
+
+
+
+        StringBuilder out = new StringBuilder();
+
+        while (k.hasNext()) {
+
+            Map.Entry mp = (Map.Entry)k.next();
+            out.append(mp.getKey() + ": "+mp.getValue()+"\n");
+
+
+        }
+
+        System.out.println(out);
+
+
+        return null;
+    }
+
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
 }
