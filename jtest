@@ -1,0 +1,64 @@
+package sample;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.sql.SQLOutput;
+
+import static org.testng.Assert.*;
+
+public class MainTest {
+
+    @Test
+    public void testMain() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+
+    }
+
+    @Test
+    public void testTestMain() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+    }
+
+    @Test
+    public void testStart() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+    }
+
+    @BeforeMethod
+    public void setUp() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+    }
+
+    @Test
+    public void testTestMain1() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+    }
+
+    @Test
+    public void testTestStart() {
+        System.out.println("This is the testcase in this class");
+        String str1="This is the testcase in this class";
+        assertEquals("This is the testcase in this class", str1);
+
+    }
+}
