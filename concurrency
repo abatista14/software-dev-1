@@ -1,0 +1,86 @@
+package numbb;
+
+import java.util.Random;
+
+/**
+ * Class numbb adds up 200 million random numbers
+ * @author adrian
+ * @Date 3/28/2021
+ */
+
+
+class numbb extends Thread {
+
+    private int[] threadArr;
+    private int rand1, rand2, partial;
+
+    public numbb(int[] threadArr, int rand1, int rand2)
+    {
+        this.threadArr = threadArr;
+        this.rand1 = rand1;
+        this.rand2 = Math.min(rand2, threadArr.length);
+    }
+
+
+    public static int sum(int[] threadArr, int rand1, int rand2)
+    {
+        int total = 0;
+        for (int i = rand1; i < rand2; i++) {
+            total += threadArr[i];
+        }
+        return total;
+    }
+
+    public static int sum(int[] threadArr)
+    {
+        return sum(threadArr, 0, threadArr.length);
+    }
+
+    public static int parallelSum(int[] threadArr, int threads)
+    {
+        int size = (int) Math.ceil(threadArr.length * 1.0 / threads);
+        numbb[] sums = new numbb[threads];
+        for (int i = 0; i < threads; i++) {
+            sums[i] = new numbb(threadArr, i * size, (i + 1) * size);
+            sums[i].start();
+        }
+        try {
+            for (numbb sum : sums) {
+                sum.join();
+            }
+        } catch (InterruptedException e) { }
+        int total = 0;
+        for (numbb sum : sums) {
+            total += sum.getPartialSum();
+        }
+        return total;
+    }
+    public static int parallelSum(int[] threadArr)
+    {
+        return parallelSum(threadArr, Runtime.getRuntime().availableProcessors());
+    }
+    public int getPartialSum()
+    {
+        return partial;
+    }
+    public void run()
+    {
+        partial = sum(threadArr, rand1, rand2);
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        Random randNum = new Random();
+        int[] threadArr = new int[200000000];
+        for (int i = 0; i < threadArr.length; i++) {
+            threadArr[i] = randNum.nextInt(10) + 1;
+        }
+        long start = System.currentTimeMillis();
+        System.out.println("sum:" + numbb.sum(threadArr));
+        System.out.println("Single thread time: " + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        System.out.println("sum:" + numbb.parallelSum(threadArr));
+        System.out.println("Parallel thread time: " + (System.currentTimeMillis() - start));
+    }
+}
+
