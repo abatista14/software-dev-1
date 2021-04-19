@@ -1,0 +1,38 @@
+import java.net.*;
+import java.io.*;
+
+
+public class server {
+    public static void main(String[] args){
+        try{
+            ServerSocket server=new ServerSocket(8080);
+            Socket se=server.accept();
+            DataInputStream serv=new DataInputStream(se.getInputStream());
+            DataOutputStream serv1=new DataOutputStream(se.getOutputStream());
+
+            int pNum = (int)serv.readInt();
+            serv1.writeUTF(Prime(pNum));
+            serv1.flush();
+            serv1.close();
+            server.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    public static String Prime(int num) {
+
+        if(num<2) {
+            return "no";
+        }
+        int i=2;
+        while(i<num) {
+            if(num%i==0) {
+                return "no";
+            }
+            i++;
+        }
+        return "yes";
+    }
+
+}
