@@ -1,0 +1,33 @@
+import java.util.*;
+import java.io.*;
+import java.net.*;
+
+/**
+* @author adrian
+ */
+
+public class client {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        try{
+            Socket ser=new Socket("localhost",8080);
+            DataInputStream cli=new DataInputStream(ser.getInputStream());
+            DataOutputStream cli1=new DataOutputStream(ser.getOutputStream());
+
+            System.out.print("\nEnter a Number : ");
+            int num = scan.nextInt();
+
+            cli1.writeInt(num);
+            String ans = (String)cli.readUTF();
+            System.out.println("\nNumber "+num+
+                    " Is Prime Number: "+ans);
+            cli1.flush();
+            cli1.close();
+            ser.close();
+        }
+        catch(Exception a){
+            System.out.println(a);
+        }
+        scan.close();
+    }
+}
